@@ -10,68 +10,47 @@
 	</head>
 	<body class="h-full grid place-items-center">
 		<div id="app">
-			<!-- v-show is basically display:none/display:block toggle -->
-			<!-- v-if does not add anything to the DOM until loop criteria is met -->
-			<!-- v-show is "one time thing" vs v-if is "over and over". think impact on page performance  -->
-			<section v-show="inProgressAssignments.length" class="mb-8">
-				<h2 class="font-bold mb-2">In progress</h2>
-				<ul>
-					<!-- Loop over assignements -->
-					<!-- Filter down to only incompleted tasks and display them in In progress list -->
-					<!-- Whenever you loop over something (with "for") you always need to add a key, it has to be unique to the current item, e.g coming from DB  -->
-					<li v-for="assignment in inProgressAssignments" :key="assignment.id">
-						<label>
-							{{ assignment.name}}
-							<input type="checkbox" v-model="assignment.complete" />
-						</label>
-					</li>
-				</ul>
-				<!-- Just to see that v-model input binding works -false turns true -->
-				<!-- <pre>{{assignments}}}</pre> -->
-			</section>
-			<!-- Display the section only if there is a completed assignment -->
-			<section v-show="completedAssignments.length">
-				<h2 class="font-bold mb-2">Completed</h2>
-				<ul>
-					<!-- Loop over assignements -->
-					<!-- Filter down to only completed tasks and display them in Assignments list -->
-					<li v-for="assignment in completedAssignments" :key="assignment.id">
-						<label>
-							{{ assignment.name}}
-							<input type="checkbox" v-model="assignment.complete" />
-						</label>
-					</li>
-				</ul>
-				<!-- Just to see that v-model input binding works -false turns true -->
-				<!-- <pre>{{assignments}}}</pre> -->
-			</section>
+			<!-- Display app-button custom component -->
+			<!-- It sorts of tuck away markup behind shadows -->
+			<!-- #1 -->
+			<!-- 'Submit' represents a <slot/> -->
+			<!-- it is a little API -->
+			<app-button>Submit</app-button>
+			<!-- We can reference this component as many times as we want -->
+			<!-- Notice different button label but re-using the same <slot/> in template property -->
+			<!-- #2 -->
+			<!-- <app-button>Click Me</app-button> -->
 		</div>
 		<script>
 			// Initialize Vue
 			const { createApp } = Vue;
 			// My Components
+			// You can have any number of Vue components
+			// app is a parent Vue component
 			let app = {
-				data() {
-					return {
-						assignments: [
-							{ name: "Finish project", complete: false, id: 1 },
-							{ name: "Read chapter 4", complete: false, id: 2 },
-							{ name: "Turn in homework", complete: false, id: 3 },
-						],
-					};
-				},
-				// Computed properties - are great for DRY principle to prevent code duplications
-				// Computed properties are sort of methods that can be cached
-				// Unlike Vue methods: we use computed properties to change a presentation of existinf data, methods are used to chnge data itself
-				// Unlike
-				computed: {
-					inProgressAssignments() {
-						return this.assignments.filter(
-							(assignment) => !assignment.complete
-						);
-					},
-					completedAssignments() {
-						return this.assignments.filter((assignment) => assignment.complete);
+				// Register app's child custom components
+				// Those components have the same shape/interface/architecture as their parent, they can have data(), life-cycle hooks, etc
+				// Components property
+				components: {
+					// button child component
+					// with many child components it can get messy that's why we use one component per file
+					"app-button": {
+						// template property
+						// Your component's html for "app-button" is going there
+						// We are "sloting" 'Submit' into a template
+						template: `
+							<button class="bg-gray-200 hover:bg-gray-400 border rounded px-5 py-5 disabled:cursor-not-allowed" :disabled="processing">
+
+								<slot/>
+
+							</button>
+						`,
+						data() {
+							// use case scenario: click on button submit, fetch request is sent to get data, 'processing' is set to true, while it is processing , the button is disabled , cursor not allowed, once fetch request is completed, change 'processing' to false
+							return {
+								processing: false,
+							};
+						},
 					},
 				},
 			};
