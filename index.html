@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Vue Learning</title>
+		<script src="https://unpkg.com/vue@3"></script>
+	</head>
+	<body>
+		<!-- Usually it is called #app but it doesn't have to be -->
+		<!-- Mount Vue to the page -->
+		<!-- Vue has access to this div and its content but not outside of it -->
+		<!-- .lentgh - number of chars for hello world! -->
+		<div id="app">
+			<!-- v-model not only binds a value "greeting", it is also "listening" to when input's value changes -->
+			<!-- e.g You type something else inside the input, "greeting" value in <p> below changes as you typing -->
+			<!-- Listening means v-model updates "greeting" value in data() object so it is sort of 2-way street-->
+			<!-- Vue has Reactivity .ie. it constantly keeps track of your source of truth (data()) , when source of truth changes , Vue automagically re-render DOM (a web page)-->
+			<div><input type="text" v-model="greeting" /></div>
+			<p>{{greeting}} ({{greeting.length}})</p>
+		</div>
+		<script>
+			// Initialize Vue
+			const { createApp } = Vue;
+			createApp({
+				// This data() object is a single source of truth (before DOM itself was the single source of truth ,e.g jQuery who dived into DOM to get h1 title)
+				// If we want to manipulate this clean object, we change its value
+				data() {
+					return {
+						greeting: "What is up",
+					};
+				},
+				// mounted() is a component method that fired by Vue when a component mounts to the page almost immediately
+				mounted() {
+					// refresh a page and you get your alert
+					// alert("hello");
+					// set a timeout which updates "greeting" after 3sec
+					setTimeout(() => {
+						// value of "greeting" changed to "Changed" value in both input and <p> after 3sec
+						this.greeting = "Changed";
+					}, 3000);
+				},
+			}).mount("#app");
+		</script>
+	</body>
+</html>
