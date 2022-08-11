@@ -1,75 +1,81 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="h-full">
 	<head>
 		<meta charset="UTF-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Episode 2: Attribute binding and basic events</title>
+		<title>Episode 3: Lists and Computed Properties</title>
 		<script src="https://unpkg.com/vue@3"></script>
-		<style>
-			html,
-			body {
-				height: 100%;
-			}
-			body {
-				display: grid;
-				place-items: center;
-			}
-
-			.text-red {
-				color: red;
-			}
-			.text-green {
-				color: green;
-			}
-		</style>
+		<script src="https://cdn.tailwindcss.com"></script>
 	</head>
-	<body>
+	<body class="h-full grid place-items-center">
 		<div id="app">
-			<!-- v-bind binds a class to the result of "buttonClasses" expression, or binds class to "text-green" , i.e binds to "buttonClasses" which evaluates to "text-green" -->
-			<!-- ":class is a shorhand of v-bind:class" -->
-			<!-- "toggle" is a method -->
-			<!-- a short form for v-on:click is @click -->
-			<!-- <button type="button" :class="buttonClasses" v-on:click="toggle">
-				Click Me
-			</button> -->
-			<!-- Bind a class with a given expression using ternary operator-->
-			<!-- If the button's state is active/on with 'text-green', change the state to "off" meaning change to 'text-red' class instead, otherwise make the text green -->
-			<button
-				type="button"
-				:class="active ? 'text-red' : 'text-green'"
-				@click="toggle"
-			>
-				Click Me
-			</button>
+			<!-- v-show is basically display:none/display:block toggle -->
+			<!-- v-if does not add anything to the DOM until loop criteria is met -->
+			<!-- v-show is "one time thing" vs v-if is "over and over". think impact on page performance  -->
+			<section v-show="inProgressAssignments.length" class="mb-8">
+				<h2 class="font-bold mb-2">In progress</h2>
+				<ul>
+					<!-- Loop over assignements -->
+					<!-- Filter down to only incompleted tasks and display them in In progress list -->
+					<!-- Whenever you loop over something (with "for") you always need to add a key, it has to be unique to the current item, e.g coming from DB  -->
+					<li v-for="assignment in inProgressAssignments" :key="assignment.id">
+						<label>
+							{{ assignment.name}}
+							<input type="checkbox" v-model="assignment.complete" />
+						</label>
+					</li>
+				</ul>
+				<!-- Just to see that v-model input binding works -false turns true -->
+				<!-- <pre>{{assignments}}}</pre> -->
+			</section>
+			<!-- Display the section only if there is a completed assignment -->
+			<section v-show="completedAssignments.length">
+				<h2 class="font-bold mb-2">Completed</h2>
+				<ul>
+					<!-- Loop over assignements -->
+					<!-- Filter down to only completed tasks and display them in Assignments list -->
+					<li v-for="assignment in completedAssignments" :key="assignment.id">
+						<label>
+							{{ assignment.name}}
+							<input type="checkbox" v-model="assignment.complete" />
+						</label>
+					</li>
+				</ul>
+				<!-- Just to see that v-model input binding works -false turns true -->
+				<!-- <pre>{{assignments}}}</pre> -->
+			</section>
 		</div>
 		<script>
 			// Initialize Vue
 			const { createApp } = Vue;
-			createApp({
-				// below method to structure Vue is called Options API, it is an original Vue method
-				// another method is called Composition API
+			// My Components
+			let app = {
 				data() {
 					return {
-						// buttonClasses: "text-green",
-						// track state of the button
-						active: false,
+						assignments: [
+							{ name: "Finish project", complete: false, id: 1 },
+							{ name: "Read chapter 4", complete: false, id: 2 },
+							{ name: "Turn in homework", complete: false, id: 3 },
+						],
 					};
 				},
-				// 'methods' object
-				methods: {
-					// custom methods nested inside methods object
-					// toggle toggles text-green / text-red
-					toggle() {
-						// one way
-						// this.buttonClasses = "text-red";
-						// another way thinking about a state of the button - toggle the button -> change state of it to on/off
-						// toggle button on , by default it is off
-						// if it is true, make it false, if it is false, make it true
-						this.active = !this.active;
+				// Computed properties - are great for DRY principle to prevent code duplications
+				// Computed properties are sort of methods that can be cached
+				// Unlike Vue methods: we use computed properties to change a presentation of existinf data, methods are used to chnge data itself
+				// Unlike
+				computed: {
+					inProgressAssignments() {
+						return this.assignments.filter(
+							(assignment) => !assignment.complete
+						);
+					},
+					completedAssignments() {
+						return this.assignments.filter((assignment) => assignment.complete);
 					},
 				},
-			}).mount("#app");
+			};
+			createApp(app).mount("#app");
 		</script>
 	</body>
 </html>
