@@ -21,37 +21,20 @@
 			<!-- #2 -->
 			<!-- <app-button>Click Me</app-button> -->
 		</div>
-		<script>
+		<!-- has to be "module" otherwise it won't work as it can't be outside of modules -->
+		<script type="module">
+			import AppButton from "./js/components/AppButton.js";
 			// Initialize Vue
 			const { createApp } = Vue;
 			// My Components
 			// You can have any number of Vue components
 			// app is a parent Vue component
 			let app = {
-				// Register app's child custom components
-				// Those components have the same shape/interface/architecture as their parent, they can have data(), life-cycle hooks, etc
 				// Components property
 				components: {
 					// button child component
 					// with many child components it can get messy that's why we use one component per file
-					"app-button": {
-						// template property
-						// Your component's html for "app-button" is going there
-						// We are "sloting" 'Submit' into a template
-						template: `
-							<button class="bg-gray-200 hover:bg-gray-400 border rounded px-5 py-5 disabled:cursor-not-allowed" :disabled="processing">
-
-								<slot/>
-
-							</button>
-						`,
-						data() {
-							// use case scenario: click on button submit, fetch request is sent to get data, 'processing' is set to true, while it is processing , the button is disabled , cursor not allowed, once fetch request is completed, change 'processing' to false
-							return {
-								processing: false,
-							};
-						},
-					},
+					"app-button": AppButton,
 				},
 			};
 			createApp(app).mount("#app");
