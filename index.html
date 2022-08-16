@@ -4,51 +4,12 @@
 		<meta charset="UTF-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Episode 3: Lists and Computed Properties</title>
+		<title>Episode 6: Bring it all together</title>
 		<script src="https://unpkg.com/vue@3"></script>
 		<script src="https://cdn.tailwindcss.com"></script>
-		<style>
-			@keyframes spinner {
-				to {
-					transform: rotate(360deg);
-				}
-			}
-
-			.is-loading:before {
-				content: "";
-				box-sizing: border-box;
-				position: absolute;
-				top: 50%;
-				left: 50%;
-				width: 20px;
-				height: 20px;
-				margin-top: -10px;
-				margin-left: -10px;
-				border-radius: 50%;
-				border: 2px solid #ccc;
-				border-top-color: #000;
-				animation: spinner 0.6s linear infinite;
-			}
-			.is-loading {
-				color: transparent;
-			}
-		</style>
 	</head>
 	<body class="h-full grid place-items-center">
-		<div id="app">
-			<!-- Display app-button custom component -->
-			<!-- It sorts of tuck away markup behind shadows -->
-			<!-- #1 -->
-			<!-- 'Submit' represents a <slot/> -->
-			<!-- it is a little API -->
-			<!-- This component is accepting data from an "outside world" via props - primary, secondary, muted and processing -->
-			<!-- 'primary' is set in AppButton.js to be default, but 'secondary' and 'muted' overide it if conditions are correct for each of them -->
-			<app-button :processing="true">Submit</app-button>
-			<!-- We can reference this component as many times as we want -->
-			<!-- Notice different button label but re-using the same <slot/> in template property -->
-			<!-- #2 -->
-			<!-- <app-button>Click Me</app-button> -->
-		</div>
+		<div id="app"></div>
 		<!-- has to be "module" otherwise it won't work as it can't be outside of modules -->
 		<script type="module">
 			import App from "./js/components/App.js";
