@@ -1,19 +1,17 @@
 import AssignmentList from "./AssignmentList.js";
+import AssignmentCreate from "./AssignmentCreate.js";
+
 // Outer assignments shell component
 export default {
-	components: { AssignmentList },
+	components: { AssignmentList, AssignmentCreate },
 	// .prevent is Vue's way to do e.preventDefault();
+	// Parent listens to a custom event froma child via @add="add"
+	// in other words , it communicates with child via props
 	template: `
 	<section class="space-y-6">
 			<assignment-list :assignments="filters.inProgress" title="In Progress"></assignment-list>
 			<assignment-list :assignments="filters.completed" title="Completed"></assignment-list>
-
-			<form @submit.prevent="add">
-				<div class="border border-gray-600 text-black">
-					<input v-model="newAssignment" placeholder="New assignment..." class="p-2" />
-					<button type="submit" class="bg-white p-2 border-l">Add</button>
-				</div>
-			</form>
+			<assignment-create @add="add"></assignment-create>
     </section>
     `,
 	data() {
@@ -24,7 +22,6 @@ export default {
 				{ name: "Turn in homework", complete: false, id: 3 },
 			],
 			// Instead of diving into DOM with .querySelector etc we use below property as our only source of truth
-			newAssignment: "",
 		};
 	},
 	// Computed properties - are great for DRY principle to prevent code duplications
@@ -43,16 +40,12 @@ export default {
 		},
 	},
 	methods: {
-		add() {
-			// alert(this.newAssignment);
-			// append a new assignment to assignments array
+		add(name) {
 			this.assignments.push({
-				name: this.newAssignment,
+				name: name,
 				completed: false,
 				id: this.assignments.length + 1,
 			});
-			// to clear a new assignment value typed into an input box after "adding" it to assignments list
-			this.newAssignment = "";
 		},
 	},
 };
