@@ -16,10 +16,11 @@ export default {
     `,
 	data() {
 		return {
+			// hardcoded for now but we can use ajax to get this data from DB
 			assignments: [
-				{ name: "Finish project", complete: false, id: 1 },
-				{ name: "Read chapter 4", complete: false, id: 2 },
-				{ name: "Turn in homework", complete: false, id: 3 },
+				{ name: "Finish project", complete: false, id: 1, tag: "math" },
+				{ name: "Read chapter 4", complete: false, id: 2, tag: "science" },
+				{ name: "Turn in homework", complete: false, id: 3, tag: "math" },
 			],
 			// Instead of diving into DOM with .querySelector etc we use below property as our only source of truth
 		};
