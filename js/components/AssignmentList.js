@@ -1,27 +1,21 @@
 import Assignment from "./Assignment.js";
+import AssignmentTags from "./AssignmentTags.js";
 export default {
-	components: { Assignment },
+	components: { Assignment, AssignmentTags },
 	// Pass a prop "assignment" (:assignment)
 	// Access "tags" to show only certain assignments (science class but not math class)
 	// CSS class="" and :class are mergered together behind the scenes
 	// 'border-blue-500 text-blue-500': tag === currentTag - it means if tag is equal currentTag , add blue border and blue text to a tag button
+	// $event allows us to access method's parameter i.e the tag that was clicked
 	template: `
     <section v-show="assignments.length">
 				<h2 class="font-bold mb-2">{{ title }} <span>({{ assignments.length}})</span></h2>
 
-				<div class="flex gap-2">
-					<button
-					@click="currentTag = tag"
-					v-for="tag in tags"
-						class="border rounded px-1 py-px text-xs"
-						:class="{
-						'border-blue-500 text-blue-500':
-							tag === currentTag
-						}"
-						>
-						{{ tag }}
-					</button>
-				</div>
+			<assignment-tags
+			:initial-tags="assignments.map(a => a.tag)"
+			:current-tag="currentTag"
+			@change="currentTag = $event"
+			/>
 
 				<ul class="border border-gray-600 divide-y divide-gray-600 mt-6">
                     <assignment
@@ -53,14 +47,6 @@ export default {
 			}
 			// otherwise show filtered assignments
 			return this.assignments.filter((a) => a.tag === this.currentTag);
-		},
-		// declare/define "tags" to be accessible
-		tags() {
-			// hardcoded
-			// return ["math", "science", "reading"];
-			// OR
-			//return a new array containing only the tags from assignments list where Set() is a way to create a set of items where each item must be unique
-			return ["all", ...new Set(this.assignments.map((a) => a.tag))];
 		},
 	},
 };
