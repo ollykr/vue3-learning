@@ -4,12 +4,16 @@
 		<meta charset="UTF-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Episode 11: Component responsibility</title>
+		<title>Episode 12: Deeper look at v-model</title>
 		<script src="https://unpkg.com/vue@3"></script>
 		<script src="https://cdn.tailwindcss.com"></script>
 	</head>
 	<body class="h-full grid place-items-center bg-gray-800 text-white">
-		<div id="app"></div>
+		<div id="app">
+			<!-- v-model does 2 things: 1) set a value for an input and 2) listens when the value is changing -->
+			<!-- v-model does the same as when we set :value="name" on input and listen to it as @input="name = $event.target.value" -->
+			<!-- <input type="text" v-model="name" /> -->
+		</div>
 		<!-- has to be "module" otherwise it won't work as it can't be outside of modules -->
 		<script type="module">
 			import App from "./js/components/App.js";

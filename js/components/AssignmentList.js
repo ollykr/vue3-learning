@@ -7,15 +7,15 @@ export default {
 	// CSS class="" and :class are mergered together behind the scenes
 	// 'border-blue-500 text-blue-500': tag === currentTag - it means if tag is equal currentTag , add blue border and blue text to a tag button
 	// $event allows us to access method's parameter i.e the tag that was clicked
+	// v-model="currentTag" replaces :current-tag="currentTag" @change="currentTag = $event"
 	template: `
     <section v-show="assignments.length">
 				<h2 class="font-bold mb-2">{{ title }} <span>({{ assignments.length}})</span></h2>
 
 			<assignment-tags
-			:initial-tags="assignments.map(a => a.tag)"
-			:current-tag="currentTag"
-			@change="currentTag = $event"
-			/>
+			v-model="currentTag"
+			:initial-tags="assignments.map(a => a.tag)">
+			</assignment-tags>
 
 				<ul class="border border-gray-600 divide-y divide-gray-600 mt-6">
                     <assignment
