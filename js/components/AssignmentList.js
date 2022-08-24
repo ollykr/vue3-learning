@@ -13,7 +13,7 @@ export default {
 				<h2 class="font-bold mb-2">{{ title }} <span>({{ assignments.length}})</span></h2>
 
 			<assignment-tags
-			v-model="currentTag"
+			v-model:currentTag="currentTag"
 			:initial-tags="assignments.map(a => a.tag)">
 			</assignment-tags>
 
