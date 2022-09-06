@@ -17,11 +17,7 @@ export default {
 	data() {
 		return {
 			// hardcoded for now but we can use ajax to get this data from DB
-			assignments: [
-				{ name: "Finish project", complete: false, id: 1, tag: "math" },
-				{ name: "Read chapter 4", complete: false, id: 2, tag: "science" },
-				{ name: "Turn in homework", complete: false, id: 3, tag: "math" },
-			],
+			assignments: [],
 			// Instead of diving into DOM with .querySelector etc we use below property as our only source of truth
 		};
 	},
@@ -39,6 +35,19 @@ export default {
 				// oldest: etc
 			};
 		},
+	},
+	// Lifecycle hook - created
+	created() {
+		// Native browser AJAX request
+		fetch("http://localhost:3000/assignments")
+			// fetch() returns Promise - "Promise" is a "promise" to give you response later eventually - async way vs sync way when you receive "response" right away
+			// when eventually you have a response, I want you to give me a JSON response
+			.then((response) => response.json())
+			// when you have a data - "assignments"  for me
+			.then((assignments) => {
+				// let's save "assignments" to a data() property
+				this.assignments = assignments;
+			});
 	},
 	methods: {
 		add(name) {
