@@ -1,7 +1,8 @@
 import Assignment from "./Assignment.js";
 import AssignmentTags from "./AssignmentTags.js";
+import Panel from "./Panel.js";
 export default {
-	components: { Assignment, AssignmentTags },
+	components: { Assignment, AssignmentTags, Panel },
 	// Pass a prop "assignment" (:assignment)
 	// Access "tags" to show only certain assignments (science class but not math class)
 	// CSS class="" and :class are mergered together behind the scenes
@@ -10,7 +11,7 @@ export default {
 	// v-model="currentTag" replaces :current-tag="currentTag" @change="currentTag = $event"
 	// Add Close button to hide a list - typical use of flags
 	template: `
-    <section v-show="assignments.length" class="w-60 bg-gray-700 p-4 border border-gray-600 rounded-lg">
+    <Panel v-show="assignments.length" class="w-60">
 	<div class="flex justify-between items-start">
 				<h2 class="font-bold mb-2">{{ title }} <span>({{ assignments.length}})</span></h2>
 
@@ -31,7 +32,11 @@ export default {
 				</ul>
 				<slot></slot>
 
-			</section>
+				<template v-slot:footer>
+				my footer goes here
+				</template>
+
+			</Panel>
 	`,
 	// For the above to work, it needs to be given a collection of assignments i.e we are removing all specifics
 	// canHide is our on/off flag it is off by default
