@@ -8,10 +8,14 @@ export default {
 	// 'border-blue-500 text-blue-500': tag === currentTag - it means if tag is equal currentTag , add blue border and blue text to a tag button
 	// $event allows us to access method's parameter i.e the tag that was clicked
 	// v-model="currentTag" replaces :current-tag="currentTag" @change="currentTag = $event"
+	// Add Close button to hide a list - typical use of flags
 	template: `
-    <section v-show="assignments.length">
+    <section v-show="assignments.length" class="w-60">
+	<div class="flex justify-between items-start">
 				<h2 class="font-bold mb-2">{{ title }} <span>({{ assignments.length}})</span></h2>
 
+				<button v-show="canToggle" @click="$emit('toggle')">&times;</button>
+	</div>
 			<assignment-tags
 			v-model:currentTag="currentTag"
 			:initial-tags="assignments.map(a => a.tag)">
@@ -25,12 +29,16 @@ export default {
                        >
                     </assignment>
 				</ul>
+				<slot></slot>
+
 			</section>
 	`,
 	// For the above to work, it needs to be given a collection of assignments i.e we are removing all specifics
+	// canHide is our on/off flag it is off by default
 	props: {
 		assignments: Array,
 		title: String,
+		canToggle: { type: Boolean, default: false },
 	},
 	data() {
 		return {

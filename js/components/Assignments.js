@@ -7,11 +7,15 @@ export default {
 	// .prevent is Vue's way to do e.preventDefault();
 	// Parent listens to a custom event froma child via @add="add"
 	// in other words , it communicates with child via props
+	// Add can-hide flag to Completed list to close it
 	template: `
-	<section class="space-y-6">
-			<assignment-list :assignments="filters.inProgress" title="In Progress"></assignment-list>
-			<assignment-list :assignments="filters.completed" title="Completed"></assignment-list>
+	<section class="flex gap-8">
+			<assignment-list :assignments="filters.inProgress" title="In Progress">
 			<assignment-create @add="add"></assignment-create>
+			</assignment-list>
+            <div v-if="showCompleted">
+				<assignment-list :assignments="filters.completed" title="Completed" can-toggle @toggle="showCompleted = !showCompleted"></assignment-list>
+			</div>
     </section>
     `,
 	data() {
@@ -19,6 +23,7 @@ export default {
 			// hardcoded for now but we can use ajax to get this data from DB
 			assignments: [],
 			// Instead of diving into DOM with .querySelector etc we use below property as our only source of truth
+			showCompleted: true,
 		};
 	},
 	// Computed properties - are great for DRY principle to prevent code duplications
