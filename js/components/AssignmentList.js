@@ -10,7 +10,7 @@ export default {
 	// v-model="currentTag" replaces :current-tag="currentTag" @change="currentTag = $event"
 	// Add Close button to hide a list - typical use of flags
 	template: `
-    <section v-show="assignments.length" class="w-60">
+    <section v-show="assignments.length" class="w-60 bg-gray-700 p-4 border border-gray-600 rounded-lg">
 	<div class="flex justify-between items-start">
 				<h2 class="font-bold mb-2">{{ title }} <span>({{ assignments.length}})</span></h2>
 

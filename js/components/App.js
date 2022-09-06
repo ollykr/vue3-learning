@@ -1,11 +1,15 @@
 // Import components
 import Assignments from "./Assignments.js";
-import AssignmentList from "./AssignmentList.js";
+import Panel from "./Panel.js";
 
 export default {
 	// Register components
-	components: { Assignments },
+	components: { Assignments, Panel },
 	template: `
-<assignments></assignments>
+	<div class="grid gap-6">
+		<assignments></assignments>
+
+		<panel heading="Hello World" />
+	</div>
     `,
 };

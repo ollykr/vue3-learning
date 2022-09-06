@@ -20,7 +20,7 @@ export default {
     `,
 	data() {
 		return {
-			// hardcoded for now but we can use ajax to get this data from DB
+			// use ajax to get this data from DB or JSON file
 			assignments: [],
 			// Instead of diving into DOM with .querySelector etc we use below property as our only source of truth
 			showCompleted: true,
